@@ -9,21 +9,23 @@ var config = {
 };
 
 firebase.initializeApp(config);
-const db = firebase.database()
+let db = firebase.firestore()
+db.settings({
+    timestampsInSnapshots: true
+});
 // Return Promises not the value itself
 // Basic Read
-function readRoot() {
-    return db.ref('/').once('value')
+function testWrite() {
+    return db.collection("Users").add({
+        first: "Ada",
+        last: "Lovelace",
+        born: 1815
+    })
 }
 
 // Basic write
-function testWrite() {
-    return db.ref('/').set({
-        test: {
-            name: 'helo',
-            worked: true
-        }
-    })
+function readRoot() {
+    return db.collection("Users").get()
 }
 
 module.exports = {

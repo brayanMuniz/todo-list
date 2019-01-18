@@ -15,8 +15,18 @@ app.set('views', __dirname + '/views');
 
 // Routes
 app.get('/', (req, res) => {
-    res.render('landing.hbs')
-    // render('fileName' {properties to send back})
+
+    firebase.readRoot().then(fres => {
+        fres.forEach(doc => {
+            console.log("​doc", doc.data())
+
+        })
+        res.render('landing.hbs', {
+            rootData: doc.data()
+        })
+    }).catch(err => {
+        console.log(err)
+    })
 })
 
 app.listen(
