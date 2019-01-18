@@ -15,11 +15,10 @@ db.settings({
 });
 // Return Promises not the value itself
 // Basic Read
-function testWrite() {
+function testWrite(firstName, lastName) {
     return db.collection("Users").add({
-        first: "Ada",
-        last: "Lovelace",
-        born: 1815
+        first: firstName,
+        last: lastName,
     })
 }
 
