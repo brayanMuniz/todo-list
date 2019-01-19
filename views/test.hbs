@@ -25,12 +25,8 @@
             <h1>Add User</h1>
             <form method="POST" action="/">
                 <div class="form-group">
-                    <label for="exampleInputEmail1">First Name</label>
-                    <input type="text" class="form-control" aria-describedby="emailHelp" placeholder="First Name">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">Last Name</label>
-                    <input type="text" class="form-control" placeholder="Last Name">
+                    <label>userName</label>
+                    <input id='userName' type="text" class="form-control" placeholder="userName">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
@@ -49,13 +45,21 @@
 <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
     crossorigin="anonymous"></script>
 {{!-- Now You can get it directly from / --}}
-
+{{!-- Todo: configure so that it can bind to the field --}}
 <script>
+
     $('form').submit(e => {
         e.preventDefault()
-        $.post("/test", (data, status) => {
+        let selectedUserName = $('#userName').val();
+        let newUser = {
+            userName: selectedUserName
+        }
+        $.post("/test", newUser, (data, status) => {
             console.log("Data: " + data + "\nStatus: " + status);
-        });
+        }).done(function () {
+            console.log("second success");
+        })
     })
 </script>
+
 </html>

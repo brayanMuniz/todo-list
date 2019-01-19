@@ -10,6 +10,9 @@ let firebase = require('./firebase');
 app.use(express.static(__dirname + '/public'));
 // app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.engine('hbs', hbs.express4({
     partialsDir: __dirname + '/views/partials'
 }));
@@ -36,10 +39,14 @@ app.get('/test', (req, res) => {
         console.log(err)
     })
 })
-
+// ! Not getting back any data from the post request
 app.post('/test', (req, res) => {
-    console.log(req)
-    console.log(res.send('yo'))
+    firebase.testWrite(req.body.userName).then(result => {
+        res.send(result.id)
+    }).catch(err => {
+        res.send(err)
+        console.log(err)
+    })
 })
 
 app.listen(
