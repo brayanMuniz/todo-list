@@ -8,6 +8,7 @@ let firebase = require('./firebase');
 // What Express is going to uses
 // app.use(express.static('public'))
 app.use(express.static(__dirname + '/public'));
+// app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 app.use(bodyParser.json()); // for parsing application/json
 app.engine('hbs', hbs.express4({
     partialsDir: __dirname + '/views/partials'
@@ -17,13 +18,17 @@ app.set('views', __dirname + '/views');
 
 // Routes
 app.get('/', (req, res) => {
+    res.render('landing.hbs')
+})
+
+app.get('/test', (req, res) => {
     firebase.readRoot().then(fres => {
         let totalData = []
         fres.forEach(el => {
             totalData.push(el.data())
         })
         console.log(totalData)
-        res.render('landing.hbs', {
+        res.render('test.hbs', {
             rootData: totalData,
             error: false
         })
@@ -32,8 +37,9 @@ app.get('/', (req, res) => {
     })
 })
 
-app.post('/', (req, res) => {
-    res.send(req)
+app.post('/test', (req, res) => {
+    console.log(req)
+    console.log(res.send('yo'))
 })
 
 app.listen(
